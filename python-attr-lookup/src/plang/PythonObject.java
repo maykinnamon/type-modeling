@@ -54,7 +54,7 @@ public class PythonObject {
         ArrayList<PythonObject> MROList = new ArrayList<>(); 
 
         MROList.add(this);
-        MROList.addAll(type.buildMRO());
+        MROList.addAll(type.getMRO());
         return MROList;
     }
 
@@ -66,7 +66,12 @@ public class PythonObject {
      * @throws PythonAttributeException When there is no attribute on this object with that name.
      */
     public final PythonObject get(String attrName) throws PythonAttributeException {
-        throw new UnsupportedOperationException("not implemented yet");
+        for (PythonObject object: getMRO()) {
+            if (object.attrs.containsKey(attrName)) {
+                return object.attrs.get(attrName);
+            }
+        }
+        throw new PythonAttributeException(this, attrName);
     }
 
     /**
@@ -78,7 +83,7 @@ public class PythonObject {
      * @param value Its new value
      */
     public final void set(String attrName, PythonObject value) {
-        throw new UnsupportedOperationException("not implemented yet");
+        attrs.put(attrName, value);
     }
 
     @Override
