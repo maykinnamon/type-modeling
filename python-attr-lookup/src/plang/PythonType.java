@@ -45,7 +45,7 @@ public class PythonType extends PythonObject {
 
         MROList.add(this);
         if (getBase() != null) {
-            MROList.addAll(base.getMRO());
+            MROList.addAll(getBase().getMRO());
         }
         if (getType() != null) {
             MROList.addAll(getType().getMRO());

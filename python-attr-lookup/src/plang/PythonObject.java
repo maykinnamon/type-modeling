@@ -54,7 +54,7 @@ public class PythonObject {
         ArrayList<PythonObject> MROList = new ArrayList<>(); 
 
         MROList.add(this);
-        MROList.addAll(type.getMRO());
+        MROList.addAll(getType().getMRO());
         return MROList;
     }
 

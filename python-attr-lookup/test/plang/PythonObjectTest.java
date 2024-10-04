@@ -155,6 +155,9 @@ class PythonObjectTest {
         fooType.set("socks", new PythonString("chartreuse"));
         barType.set("socks", null);
 
+        System.out.println(fooType.get("socks").getType());
+        System.out.println(foo.get("socks").getType());
+
         assertEquals("chartreuse", fooType.get("socks"));
         assertEquals("chartreuse", foo.get("socks"));
 
