@@ -89,6 +89,14 @@ class JavaPrimitiveType(JavaType):
     Primitive types are not object types and do not have methods.
     """
 
+    def is_subtype_of(self, other):
+        """Returns True if and only if a value of this type can be used in a context that expects
+        the given type."""
+        if (other == self):
+            return True
+        return False
+
+
 
 class JavaObjectType(JavaType):
     """
@@ -118,6 +126,16 @@ class JavaObjectType(JavaType):
             self.direct_supertypes = direct_supertypes
         self.constructor = constructor
         self.methods = {}
+
+    def is_subtype_of(self, other):
+        """Returns True if and only if a value of this type can be used in a context that expects
+        the given type."""
+        if (other == self):
+            return True
+        for x in self.direct_supertypes:
+            if x.is_subtype_of(other):
+                return True
+        return False
 
     def add_method(self, method):
         self.methods[method.name] = method
