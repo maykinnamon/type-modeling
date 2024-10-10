@@ -97,7 +97,6 @@ class JavaPrimitiveType(JavaType):
         return False
 
 
-
 class JavaObjectType(JavaType):
     """
     Describes the API of a Java type whose values are objects, i.e. a class or interface.
@@ -136,6 +135,7 @@ class JavaObjectType(JavaType):
             if x.is_subtype_of(other):
                 return True
         return False
+    
 
     def add_method(self, method):
         self.methods[method.name] = method
