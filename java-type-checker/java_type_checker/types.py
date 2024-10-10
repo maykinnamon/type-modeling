@@ -168,8 +168,16 @@ class JavaNullType(JavaType):
     Null acts as though it is a subtype of all object types. However, it raises an exception for any
     attempt to look up a method.
     """
+    is_object_type = True
+
     def __init__(self):
         super().__init__("null")
+
+    def is_subtype_of(self, other):
+        return other.is_object_type
+    
+    def method_named(self, method_name):
+        raise NoSuchJavaMethod("Cannot invoke method {0}() on {1}".format(method_name, self.name))
 
 
 class JavaTypeError(Exception):

@@ -77,6 +77,7 @@ class JavaAssignment(JavaExpression):
         lhs (JavaVariable): The variable whose value this assignment updates.
         rhs (JavaExpression): The expression whose value will be assigned to the lhs.
     """
+
     def __init__(self, lhs, rhs):
         self.lhs = lhs
         self.rhs = rhs
@@ -85,6 +86,9 @@ class JavaAssignment(JavaExpression):
         return self.lhs.static_type()
     
     def check_types(self):
+        self.lhs.check_types()
+        self.rhs.check_types()
+
         if not self.rhs.static_type().is_subtype_of(self.lhs.static_type()):
             raise JavaTypeMismatchError("Cannot assign {0} to variable {1} of type {2}".format(
                     self.rhs.static_type().name, 
@@ -118,10 +122,14 @@ class JavaMethodCall(JavaExpression):
         return self.receiver.static_type().method_named(self.method_name).return_type
     
     def check_types(self):
+        self.receiver.check_types()
         receiver_type = self.receiver.static_type()
         method_name = receiver_type.name + "." + self.method_name + "()"
         expected = receiver_type.method_named(self.method_name).parameter_types
         actual = [argument.static_type() for argument in self.args]
+
+        for arg in self.args:
+            arg.check_types()
 
         if len(actual) != len(expected):
             raise JavaArgumentCountError("Wrong number of arguments for {0}: expected {1}, got {2}".format(
